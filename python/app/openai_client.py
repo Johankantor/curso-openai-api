@@ -23,3 +23,19 @@ def generate_text(prompt: str) -> dict:
         "usage": response.usage,
         "response_id": response.id,
     }
+
+def generate_text_with_chat_completions(prompt: str) -> str:
+    completion = client.chat.completions.create(
+        model="gpt-5.4",
+        messages=[
+            {
+                "role": "system",
+                "content": "Eres un asistente experto en estrategia de contenido.",
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+    )
+    return completion.choices[0].message.content

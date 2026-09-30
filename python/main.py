@@ -1,27 +1,15 @@
-import os
+from app.openai_client import (generate_text, generate_text_with_chat_completions)
 
-from dotenv import load_dotenv
-from openai import OpenAI
+prompt = "Quiero lanzar un workshop de IA para developers."
 
-# Carga las variables del archivo .env (entre ellas,
-# OPENAI_API_KEY)
-load_dotenv()
+modern = generate_text(prompt)
+print("== Responses API ==")
+print(modern["text"])
+print(modern["usage"])
 
-# El cliente lee la API key desde las variables de
-# entorno.
-# Nunca escribimos la key directamente en el código.
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Legacy
 
-# Primera llamada usando la Responses API (la API
-# principal del curso).
-response = client.responses.create(
-    model="gpt-4o-mini",
-    input="Genera una idea corta para una campaña de lanzamiento.",
-)
+legacy = generate_text_with_chat_complations(prompt)
 
-# output_text es la forma simple de leer el texto
-# generado.
-print(response.output_text)
-
-# Imprime el desglose de métricas sobre el uso de tokens (input_tokens, output_tokens y total_tokens)
-print(response.usage)
+print("== Legacy API ==")
+print(legacy)
