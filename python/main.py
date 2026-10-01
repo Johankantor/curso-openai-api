@@ -1,5 +1,5 @@
 from app.openai_client import (generate_text, generate_text_with_chat_completions)
-from app.cost import estimate_cost
+from app.costs import estimate_cost
 
 prompt = "Quiero lanzar un workshop de IA para developers."
 
