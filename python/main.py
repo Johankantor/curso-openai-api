@@ -1,17 +1,16 @@
-from app.openai_client import (generate_text, generate_text_with_chat_completions)
-from app.costs import estimate_cost
+from app.openai_client import generate_structured_brief
 
-prompt = "Quiero lanzar un workshop de IA para developers."
-
-result = generate_text(prompt)
-
-usage = result["usage"]
-
-print(result["text"])
-print(usage)
-
-cost = estimate_cost(
-    input_tokens=usage.input_tokens,
-    output_tokens=usage.output_tokens,
-)
-print(f"Costo Aproximado: ${cost:.2f}")
+result = generate_structured_brief("GENERA UN BRIEF PARA UN EVENTO DE AI EN MEDELLIN")
+print(result)
+print("---TITLE---")
+print(result.title)
+print("---OBJECTIVE---")
+print(result.objective)
+print("---AUDIENCE---")
+print(result.audience)
+print("---TONE---")
+print(result.tone)
+print("---CHANNELS---")
+print(result.channels)
+print("---NEXT STEPS---")
+print(result.next_steps)
