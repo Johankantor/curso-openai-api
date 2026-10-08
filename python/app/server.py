@@ -1,7 +1,9 @@
-from fastapi import FastAPI, Form
+import base64
+
+from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 
-from app.openai_client import generate_text, generate_brief, generate_structured_brief, generate_content_piece
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image)
 
 app = FastAPI()
 
@@ -37,6 +39,12 @@ def home():
                 </select>
                 <br />
                 <button type="submit">Generar contenido</button>
+</form>
+<h2>Analizar imagen de referencia</h2>
+<form method="post" action="/analyze-image" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <br />
+    <button type="submit">Analizar imagen</button>
 </form>
         </body>
     </html>
@@ -95,3 +103,22 @@ def content(idea: str = Form(...), channel: str = Form(...)):
         </body>
     </html>
     """
+
+@app.post("/analyze-image", response_class=HTMLResponse)
+async def analyze_image(file: UploadFile = File(...)):
+    # Leemos el archivo y lo convertimos a base64.
+    image_bytes = await file.read()
+    image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+
+    # Lo enviamos como input multimodal y devolvemos el analisis en texto.
+    analysis = analyze_reference_image(image_base64, file.content_type)
+
+    return f"""
+<html>
+    <body>
+        <h1>Análisis de la imagen</h1>
+        <p style="white-space: pre-wrap; word-wrap: break-word;">{analysis}</p>
+        <a href="/">Volver</a>
+    </body>
+</html>
+"""

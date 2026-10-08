@@ -87,3 +87,30 @@ def generate_content_piece(brief: CampaignBrief, channel: str) -> ContentPiece:
     )
 
     return response.output_parsed
+
+def analyze_reference_image(image_base64: str, content_type: str) -> str:
+    """Analiza una imagen de referencia (input multimodal: texto + imagen)."""
+    response = client.responses.create(
+        model="gpt-5.4",
+        instructions="""
+        Analiza esta imagen como referencia visiual para una campana.
+        Describe estilo, elementos importantes, colores, tono visual y posibles usos.
+        Responde en espanol.
+        """,
+   input=[
+    {
+        "role": "user",
+        "content": [
+            {
+                "type": "input_text",
+                "text": "Analiza esta imagen para una campana de contenido.",
+            },
+            {
+                "type": "input_image",
+                "image_url": f"data:{content_type};base64,{image_base64}",
+            },
+        ],
+    }
+  ],
+)
+    return response.output_text
