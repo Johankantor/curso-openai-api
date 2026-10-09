@@ -3,51 +3,80 @@ import base64
 from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 
-from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image)
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image)
 
 app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse)
 def home():
     return """
-    <html>
-        <head>
-            <title>Generador de texto con OpenAI</title>
-        </head>
-        <body>
-            <h1>AI Content Operations Studio</h1>
-            <form action="/generate" method="post">
-                <textarea name="idea" rows="6" cols="60"></textarea>
-                <br />
-                <button type="submit">Generar idea</button>
-            </form>
-            <h2>Convertir idea en brief</h2>
-            <form method="post" action="/brief">
-                <textarea name="idea" rows="6" cols="60"></textarea>
-                <br />
-                <button type="submit">Generar brief</button>
-            </form>
-            
-            <h2>Generar contenido por canal</h2>
-           <form method="post" action="/content">
-                <textarea name="idea" rows="6" cols="60"></textarea>
-                <br />
-                <select name="channel">
+   <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de texto con OpenAI</title>
+</head>
+<body>
+    <h1>AI Content Operations Studio</h1>
+
+    <!-- 1. Generar Idea General -->
+    <section>
+        <h2>Generar idea</h2>
+        <form action="/generate" method="post">
+            <textarea name="idea" rows="6" cols="60" placeholder="Escribe tu idea aquí..."></textarea>
+            <br />
+            <button type="submit">Generar idea</button>
+        </form>
+    </section>
+
+    <!-- 2. Convertir Idea en Brief -->
+    <section>
+        <h2>Convertir idea en brief</h2>
+        <form action="/brief" method="post">
+            <textarea name="idea" rows="6" cols="60" placeholder="Escribe tu idea para el brief..."></textarea>
+            <br />
+            <button type="submit">Generar brief</button>
+        </form>
+    </section>
+
+    <!-- 3. Generar Contenido por Canal -->
+    <section>
+        <h2>Generar contenido por canal</h2>
+        <form action="/content" method="post">
+            <textarea name="idea" rows="6" cols="60" placeholder="Escribe el texto base..."></textarea>
+            <br />
+            <select name="channel">
                 <option value="twitter">Twitter</option>
                 <option value="linkedin">LinkedIn</option>
                 <option value="instagram">Instagram</option>
-                </select>
-                <br />
-                <button type="submit">Generar contenido</button>
-</form>
-<h2>Analizar imagen de referencia</h2>
-<form method="post" action="/analyze-image" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <br />
-    <button type="submit">Analizar imagen</button>
-</form>
-        </body>
-    </html>
+            </select>
+            <br /><br />
+            <button type="submit">Generar contenido</button>
+        </form>
+    </section>
+
+    <!-- 4. Analizar Imagen de Referencia (Vision) -->
+    <section>
+        <h2>Analizar imagen de referencia</h2>
+        <form action="/analyze-image" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required />
+            <br /><br />
+            <button type="submit">Analizar imagen</button>
+        </form>
+    </section>
+
+    <!-- 5. Generar Imagen para Campaña (DALL-E) -->
+    <section>
+        <h2>Generar imagen para campaña</h2>
+        <form action="/generate-image" method="post">
+            <textarea name="idea" rows="6" cols="60" placeholder="Describe la imagen que deseas generar..."></textarea>
+            <br />
+            <button type="submit">Generar imagen</button>
+        </form>
+    </section>
+</body>
+</html>
     """
 @app.post("/generate", response_class=HTMLResponse)
 def generate(idea: str = Form(...)):
@@ -120,5 +149,27 @@ async def analyze_image(file: UploadFile = File(...)):
         <p style="white-space: pre-wrap; word-wrap: break-word;">{analysis}</p>
         <a href="/">Volver</a>
     </body>
+</html>
+"""
+
+@app.post("/generate-image", response_class=HTMLResponse)
+def generate_image(idea: str = Form(...)):
+    # Usamos el brief como fuente del prompt visual.
+    brief = generate_structured_brief(idea)
+    # Genera y guarda la imagen como output.png.
+    generate_campaign_image(brief)
+
+    #Lea el archivo generado dentro del HTML.
+    with open("output.png","rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode("utf-8")
+
+    return f"""
+    <html>
+  <body>
+    <h1>Imagen de campaña</h1>
+    <img src="data:image/png;base64,{image_base64}" alt="Imagen generada" style="max-width: 100%;" />
+    <br />
+    <a href="/">Volver</a>
+  </body>
 </html>
 """

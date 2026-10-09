@@ -1,4 +1,6 @@
 import os
+import base64
+
 from dotenv import load_dotenv
 from openai import OpenAI
 from app.models import CampaignBrief, ContentPiece
@@ -114,3 +116,26 @@ def analyze_reference_image(image_base64: str, content_type: str) -> str:
   ],
 )
     return response.output_text
+
+def generate_campaign_image(brief: CampaignBrief) -> str:
+    """Genera un asset visual nuevo usando el brief como fuente del prompt."""
+    prompt = f"""
+    Crea una imagen promocional para esta  campana.
+
+    titulo: {brief.title}
+    Objetivo: {brief.objective}
+    Audiencia: {", ".join(brief.audience)}
+    Tono: {brief.tone}
+
+    Estilo: moderno, claro, profesional y usable en redes sociales.
+    """
+    
+    result = client.images.generate(
+        model="gpt-image-1",
+        prompt=prompt,
+        size="1024x1024",
+    )
+    image_bytes = base64.b64decode(result.data[0].b64_json)
+    with open("output.png","wb") as f:
+        f.write(image_bytes)
+
