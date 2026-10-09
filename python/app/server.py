@@ -1,9 +1,10 @@
 import base64
 
 from fastapi import FastAPI, Form, UploadFile, File
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 
-from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image)
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, 
+)
 
 app = FastAPI()
 
@@ -73,6 +74,16 @@ def home():
             <textarea name="idea" rows="6" cols="60" placeholder="Describe la imagen que deseas generar..."></textarea>
             <br />
             <button type="submit">Generar imagen</button>
+        </form>
+    </section>
+    
+    <!-- 6. Generar contenido largo (streaming) -->
+    <section>
+        <h2>Generar contenido largo (streaming)</h2>
+        <form method="post" action="/stream-content">
+            <textarea name="idea" rows="6" cols="60" placeholder="Escribe el texto base..."></textarea>
+            <br />
+            <button type="submit">Generar en streaming</button>
         </form>
     </section>
 </body>
@@ -173,3 +184,11 @@ def generate_image(idea: str = Form(...)):
   </body>
 </html>
 """
+
+@app.post("/stream-content")
+def stream_content(idea: str = Form(...)):
+    # El backend reenvia los fragmentos al cliente a medida que llegan.
+    return StreamingResponse(
+        stream_long_content(idea),
+        media_type="text/plain"
+    )

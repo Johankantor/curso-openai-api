@@ -139,3 +139,14 @@ def generate_campaign_image(brief: CampaignBrief) -> str:
     with open("output.png","wb") as f:
         f.write(image_bytes)
 
+def stream_long_content(prompt: str) -> str:
+    """Genera contenido largo en streaming: va entregando fragmentos(deltas)."""
+    response = client.responses.create(
+        model="gpt-5.4",
+        instructions="Genera contenido largo y claro para una campana",
+        input=prompt,
+        stream=True,
+    )
+    for event in response:
+        if event.type == "response.output_text.delta":
+            yield event.delta
