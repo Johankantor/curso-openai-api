@@ -1,9 +1,11 @@
 import base64
+import tempfile
+import os
 
 from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, StreamingResponse
 
-from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, 
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, transcribe_audio_file,
 )
 
 app = FastAPI()
@@ -84,6 +86,16 @@ def home():
             <textarea name="idea" rows="6" cols="60" placeholder="Escribe el texto base..."></textarea>
             <br />
             <button type="submit">Generar en streaming</button>
+        </form>
+    </section>
+    
+    <!-- 7. Transcribir Audio -->
+    <section>
+        <h2>Transcribir nota de voz</h2>
+        <form action="/transcribe-audio" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="audio/*" required />
+            <br />
+            <button type="submit">Transcribir audio</button>
         </form>
     </section>
 </body>
@@ -192,3 +204,16 @@ def stream_content(idea: str = Form(...)):
         stream_long_content(idea),
         media_type="text/plain"
     )
+
+
+@app.post("/transcribe-audio")
+async def transcribe_audio(file: UploadFile = File(...)):
+    # Leemos el archivo y lo convertimos a base64.
+    audio_bytes = await file.read()
+    temp_path = os.path.join(tempfile.gettempdir(), file.filename)
+    with open(temp_path, "wb") as audio_file:
+        audio_file.write(audio_bytes)
+    text = transcribe_audio_file(temp_path)
+    # Lo enviamos como input multimodal y devolvemos la transcripción en texto.
+    
+    return {"text": text}

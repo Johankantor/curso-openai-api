@@ -150,3 +150,12 @@ def stream_long_content(prompt: str) -> str:
     for event in response:
         if event.type == "response.output_text.delta":
             yield event.delta
+
+def transcribe_audio_file(file_path: str) -> str:
+    """convierte una nota de voz en texto (speech-to-text)."""
+    with open(file_path, "rb") as audio_file:
+        transcription = client.audio.transcriptions.create(
+            model="gpt-4o-transcribe",
+            file=audio_file,
+        )
+    return transcription.text
