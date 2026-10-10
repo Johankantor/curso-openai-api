@@ -159,3 +159,13 @@ def transcribe_audio_file(file_path: str) -> str:
             file=audio_file,
         )
     return transcription.text
+
+def text_to_speech(text: str, output_path: str = "output.mp3") -> str:
+    """Convierte texto a voz (text-to-speech)."""
+    with client.audio.speech.with_streaming_response.create(
+        model="gpt-4o-mini-tts",
+        voice="alloy",
+        input=text,
+    ) as response:
+        response.stream_to_file(output_path)
+    return output_path

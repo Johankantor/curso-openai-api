@@ -5,7 +5,7 @@ import os
 from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, StreamingResponse
 
-from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, transcribe_audio_file,
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, transcribe_audio_file, text_to_speech,
 )
 
 app = FastAPI()
@@ -94,8 +94,18 @@ def home():
         <h2>Transcribir nota de voz</h2>
         <form action="/transcribe-audio" method="post" enctype="multipart/form-data">
             <input type="file" name="file" accept="audio/*" required />
-            <br />
+            <br /><br />
             <button type="submit">Transcribir audio</button>
+        </form>
+    </section>
+    
+    <!-- 8. Texto a voz -->
+    <section>
+        <h2>Escuchar un guion (Texto a voz)</h2>
+        <form action="/text-to-speech" method="post">
+            <textarea name="text" rows="6" cols="60" placeholder="Escribe el texto que deseas convertir a voz..."></textarea>
+            <br />
+            <button type="submit">Convertir a voz</button>
         </form>
     </section>
 </body>
@@ -207,7 +217,7 @@ def stream_content(idea: str = Form(...)):
 
 
 @app.post("/transcribe-audio")
-async def transcribe_audio(file: UploadFile = File(...)):
+async def transcribe_audio(file: UploadFile = File(...)):   
     # Leemos el archivo y lo convertimos a base64.
     audio_bytes = await file.read()
     temp_path = os.path.join(tempfile.gettempdir(), file.filename)
@@ -217,3 +227,24 @@ async def transcribe_audio(file: UploadFile = File(...)):
     # Lo enviamos como input multimodal y devolvemos la transcripción en texto.
     
     return {"text": text}
+
+@app.post("/text-to-speech", response_class=HTMLResponse)
+def create_audio(text: str = Form(...)):
+    # Genera y guarda el audio como output.mp3.
+
+    output_path = text_to_speech(text)
+
+    # Leemos el archivo generado y lo embebemos en un reproductor del navegador.
+    with open(output_path, "rb") as audio_file:
+        audio_base64 = base64.b64encode(audio_file.read()).decode("utf-8")
+    
+    return f"""
+    <html>
+  <body>
+    <h1>Audio generado</h1>
+    <audio controls src="data:audio/mp3;base64,{audio_base64}"></audio>
+    <br />
+    <a href="/">Volver</a>
+  </body>
+</html>
+"""
