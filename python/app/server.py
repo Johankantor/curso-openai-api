@@ -5,7 +5,7 @@ import os
 from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, StreamingResponse
 
-from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, transcribe_audio_file, text_to_speech,
+from app.openai_client import (generate_text, generate_brief, generate_structured_brief, generate_content_piece, analyze_reference_image, generate_campaign_image, stream_long_content, transcribe_audio_file, text_to_speech, generate_with_web_search,
 )
 
 app = FastAPI()
@@ -106,6 +106,16 @@ def home():
             <textarea name="text" rows="6" cols="60" placeholder="Escribe el texto que deseas convertir a voz..."></textarea>
             <br />
             <button type="submit">Convertir a voz</button>
+        </form>
+    </section>
+    
+    <!-- 9. Búsqueda web -->
+    <section>
+        <h2>Búsqueda web con la tool nativa de OpenAI</h2>
+        <form action="/web-search" method="post">
+            <textarea name="prompt" rows="6" cols="60" placeholder="Escribe el prompt que deseas buscar..."></textarea>
+            <br />
+            <button type="submit">Buscar</button>
         </form>
     </section>
 </body>
@@ -246,5 +256,19 @@ def create_audio(text: str = Form(...)):
     <br />
     <a href="/">Volver</a>
   </body>
+</html>
+"""
+@app.post("/web-search", response_class=HTMLResponse)
+def web_search(prompt: str = Form(...)):
+    # Tool hospedada: OpenAI ejecuta la búsqueda, sin loop manual en el backend.
+    result = generate_with_web_search(prompt)
+
+    return f"""
+<html>
+<body>
+<h1>Resultado con web search</h1>
+<pre>{result}</pre>
+<a href="/">Volver</a>
+</body>
 </html>
 """

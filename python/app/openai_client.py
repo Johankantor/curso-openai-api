@@ -196,3 +196,23 @@ brand_voice_tool = {
     }
     
 }   
+
+def generate_with_web_search(prompt: str) -> str:
+    """Responde usando una tool nativa (hospedada) de OpenAI: web_search.
+
+    Contraste con la function tool de la clase 14 (brand_voice_tool):
+    - Alla definimos una *function tool* propia: el modelo la pide y seriamos
+    nosotros quienes la ejecutariamos en el backend (un loop manual).
+    - Aqui web_search es una tool *hospedada*: la ejecuta OpenAI. No hay loop;
+    solo la declaramos y el modelo decide cuando buscar en la web.
+    """
+    response = client.responses.create(
+        model="gpt-5.4",
+        instructions="Responde en espanol y cita las fuentes que utilices.",
+        input=prompt,
+        # web_search es una tool hospedada: no la ejecutamos nosotros.
+        tools=[{"type": "web_search"}],
+    )
+
+    # La respuesta final (con citas) llega directo en output_text.
+    return response.output_text
