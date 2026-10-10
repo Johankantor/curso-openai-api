@@ -169,3 +169,30 @@ def text_to_speech(text: str, output_path: str = "output.mp3") -> str:
     ) as response:
         response.stream_to_file(output_path)
     return output_path
+
+def get_brand_voice() -> dict:
+    """Datos internos de la marca. Esta funcion se ejecuta en nuestro backend."""
+    return {
+        "tone": "cercano, claro y educativo",
+        "avoid": ["hype exagerado", "promesas vacias"],
+        "preferred_channels": ["LinkedIn", "Instagram", "YouTube", "Newsletter", "Reels"]
+    }
+
+def get_brand_voice() -> str:
+    """Datos internos de la marca. Esta funcion se ejecuta en nuestro backend."""
+    return {
+        "tone": "cercano, claro y educativo",
+        "avoid": ["hype exagerado", "promesas vacias"],
+        "preferred_channels": ["LinkedIn", "Instagram", "YouTube", "Newsletter", "Reels"]
+    }
+brand_voice_tool = {
+    "type": "function",
+    "name": "get_brand_voice",
+    "description": "Obtiene los datos internos de la marca para guiar la creatividad.",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": False,
+    }
+    
+}   
