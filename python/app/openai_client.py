@@ -58,7 +58,7 @@ def generate_structured_brief(idea: str) -> CampaignBrief:
     """Convierte una idea desordenada en un brief de campaña estructurado."""
 
     response = client.responses.parse(
-        model="gpt-5.6-luna",
+        model="gpt-5.4",
         instructions="""
         Convierte ideas desordenadas en briefs claros de contenido.
         Incluye objetivo, audiencia, tono, canales recomendados y próximos pasos.
