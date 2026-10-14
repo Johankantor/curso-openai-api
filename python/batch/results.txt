@@ -1,0 +1,86 @@
+req-1: **Canal recomendado:** **Workshop / evento presencial de comunidad técnica**
+
+**Clasificación de la idea:**  
+- **Tipo:** Formación práctica / capacitación para developers  
+- **Audiencia:** Desarrolladores, ingenieros de software, tech leads  
+- **Formato ideal:** Workshop hands-on de IA  
+- **Ubicación:** Barranquilla  
+- **Objetivo:** Que los participantes salgan con herramientas, casos de uso y código aplicable
+
+**Por qué este canal:**  
+Porque un workshop de IA “listo para developers” funciona mejor en un formato interactivo, con demostraciones, ejercicios y networking. Para este tipo de audiencia, el canal presencial o híbrido en comunidad técnica suele generar más asistencia y mejor adopción.
+
+**Resumen corto:**  
+> **Canal recomendado: Workshop presencial para developers en Barranquilla**
+
+Si quieres, también te lo puedo clasificar en un formato más ejecutivo tipo:
+- **Canal**
+- **Target**
+- **Mensaje**
+- **Formato**
+- **Objetivo**
+req-2: **Canal recomendado: Newsletter semanal**
+
+**Por qué encaja:**
+- Permite compartir prompts útiles de forma **curada y periódica**.
+- Es ideal para una audiencia que quiere **aprender y probar** sin saturación.
+- Favorece contenidos de valor recurrente: **1–3 prompts por edición**, casos de uso y consejos breves.
+
+**Cómo enfocarla:**
+- Selecciona un tema por semana.
+- Incluye el prompt, para qué sirve y un ejemplo de uso.
+- Añade una sección corta de “mejora del prompt” o “variación avanzada”.
+
+Si quieres, también puedo clasificarla por:
+- **objetivo de contenido**
+- **frecuencia ideal**
+- **público objetivo**
+- **formato recomendado**
+req-3: **Canal recomendado:** **Reel corto / Video corto vertical (Instagram Reels, TikTok, YouTube Shorts)**
+
+**Por qué:**  
+La idea de **mostrar un demo de la app** funciona muy bien en formato corto porque:
+- capta atención rápido,
+- enseña el producto en acción,
+- transmite valor sin necesidad de mucha explicación,
+- es ideal para demostraciones visuales y “wow moments”.
+
+**Clasificación de la idea:**  
+- **Formato:** video corto
+- **Objetivo:** demo / producto
+- **Canal principal:** Reels
+- **Ideal para:** awareness y generación de interés
+
+Si quieres, también puedo clasificarla en una tabla con **canal, formato, objetivo y nivel de prioridad**.
+req-4: **Canal recomendado:** **Webinar**
+
+**Clasificación de la idea:**  
+Tema técnico y demostrativo, ideal para un formato de **webinar en vivo** donde se pueda explicar la **integración de la OpenAI API en un producto**, mostrar ejemplos prácticos, resolver dudas y hacer demo de implementación.
+
+**Por qué encaja en webinar:**
+- Permite **explicar paso a paso** la integración.
+- Facilita una **demo en tiempo real**.
+- Da espacio para **preguntas y respuestas**.
+- Es útil para una audiencia de **desarrolladores, PMs o equipos de producto**.
+
+Si quieres, también puedo ayudarte a clasificarla en formato más específico, por ejemplo: **awareness / consideración / conversión** o **audiencia objetivo**.
+req-5: **Canal recomendado:** **X / Twitter (hilo)**
+
+**Por qué encaja:**
+- El formato de **hilo** funciona muy bien para ideas de **tips accionables** y contenido educativo breve.
+- **Prompt engineering** suele rendir bien en Twitter/X porque:
+  - permite “microlecciones” por tweet,
+  - es fácil de guardar y compartir,
+  - genera interacción con ejemplos, antes/después y plantillas.
+
+**Cómo lo publicaría:**
+- Tweet 1: gancho fuerte
+- Tweets 2–6: tips concretos
+- Último tweet: resumen + CTA (“si quieres más, sígueme / guarda el hilo”)
+
+**Ejemplo de enfoque:**
+- “5 tips de prompt engineering para obtener mejores respuestas de IA”
+- “Errores comunes al escribir prompts”
+- “Plantillas listas para copiar y pegar”
+
+Si quieres, también puedo **clasificar la idea por objetivo** (alcance, autoridad, leads, engagement) o convertirla en un **hilo completo**.
