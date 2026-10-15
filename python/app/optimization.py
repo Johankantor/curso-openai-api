@@ -5,7 +5,7 @@ from app.openai_client import client
 
 stable_instructions = """
 Eres el generador oficial del contenido de la marca "Mi Marca".
-Susa siempre un tono cercano, claro, educativo y profesional.
+Usa siempre un tono cercano, claro, educativo y profesional.
 Evita hype exagerado y promesas irreales.
 """
 
