@@ -378,23 +378,12 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-        // Función auxiliar para hacer scroll automático en móviles hacia el resultado
-        function scrollToResult() {
-            if (window.innerWidth <= 1024) {
-                const panel = document.querySelector('.result-panel');
-                if (panel) {
-                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        }
-
         function showLoading(text) {
             resultBox.innerHTML = `
                 <div class="placeholder-state">
                     <div class="spinner"></div>
                     <span style="color: #60a5fa; font-weight: 500;">${text}</span>
                 </div>`;
-            scrollToResult();
         }
 
         async function handleSubmit(event, url, form) {
@@ -405,7 +394,6 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const htmlContent = await response.text();
                 resultBox.innerHTML = htmlContent;
-                scrollToResult();
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error de conexión con el servidor backend.</p>';
             }
@@ -419,7 +407,6 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const htmlContent = await response.text();
                 resultBox.innerHTML = htmlContent;
-                scrollToResult();
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error al procesar el archivo multimedia.</p>';
             }
@@ -433,7 +420,6 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const data = await response.json();
                 resultBox.innerHTML = `<h3 style="margin-top:0; color:#60a5fa;">Transcripción Completada</h3><pre>${data.text}</pre>`;
-                scrollToResult();
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error en la transcripción del audio.</p>';
             }
@@ -442,7 +428,6 @@ BASE_LAYOUT = """
         async function handleStreamSubmit(event, url, form) {
             event.preventDefault();
             resultBox.innerHTML = '<h3 style="margin-top:0; color:#60a5fa;">Transmitiendo Contenido...</h3><pre id="stream-output"></pre>';
-            scrollToResult();
             const outputPre = document.getElementById('stream-output');
             const formData = new FormData(form);
             try {
