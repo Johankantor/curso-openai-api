@@ -567,4 +567,4 @@ def create_audio(text: str = Form(..., alias="idea")):
 def web_search(prompt: str = Form(...)):
     result = generate_with_web_search(prompt)
     safe_result = html.escape(str(result))
-    return f'<h3 style="margin-top:0; color:#60a5fa;">Resultado de Búsqueda Web</h3><pre>{safe_result}</pre>'
+    return f"<pre>{safe_result}</pre>"
