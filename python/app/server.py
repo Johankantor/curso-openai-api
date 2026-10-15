@@ -378,14 +378,14 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-        // Función para mover la vista al panel de resultados suavemente
+        // Función infalible de desplazamiento automático para móviles
         function scrollToResult() {
             setTimeout(() => {
                 const panel = document.querySelector('.result-panel');
                 if (panel) {
                     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-            }, 80); // Un pequeño respiro de 80ms para asegurar que el DOM responda
+            }, 120);
         }
 
         function showLoading(text) {
@@ -394,7 +394,7 @@ BASE_LAYOUT = """
                     <div class="spinner"></div>
                     <span style="color: #60a5fa; font-weight: 500;">${text}</span>
                 </div>`;
-            scrollToResult(); // Baja al panel apenas empieza a cargar
+            scrollToResult(); // Salta al panel al empezar a cargar
         }
 
         async function handleSubmit(event, url, form) {
@@ -405,7 +405,7 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const htmlContent = await response.text();
                 resultBox.innerHTML = htmlContent;
-                scrollToResult(); // Baja al panel cuando llega la respuesta
+                scrollToResult(); // Salta al panel al recibir la respuesta
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error de conexión con el servidor backend.</p>';
                 scrollToResult();
@@ -420,7 +420,7 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const htmlContent = await response.text();
                 resultBox.innerHTML = htmlContent;
-                scrollToResult(); // Baja al panel con el resultado del archivo
+                scrollToResult();
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error al procesar el archivo multimedia.</p>';
                 scrollToResult();
@@ -435,7 +435,7 @@ BASE_LAYOUT = """
                 const response = await fetch(url, { method: 'POST', body: formData });
                 const data = await response.json();
                 resultBox.innerHTML = `<h3 style="margin-top:0; color:#60a5fa;">Transcripción Completada</h3><pre>${data.text}</pre>`;
-                scrollToResult(); // Baja al panel con la transcripción
+                scrollToResult();
             } catch (error) {
                 resultBox.innerHTML = '<p style="color: #ef4444; padding: 20px;">Error en la transcripción del audio.</p>';
                 scrollToResult();
@@ -445,7 +445,7 @@ BASE_LAYOUT = """
         async function handleStreamSubmit(event, url, form) {
             event.preventDefault();
             resultBox.innerHTML = '<h3 style="margin-top:0; color:#60a5fa;">Transmitiendo Contenido...</h3><pre id="stream-output"></pre>';
-            scrollToResult(); // Baja al panel de inmediato al iniciar el streaming
+            scrollToResult(); // Salta al panel de inmediato
             const outputPre = document.getElementById('stream-output');
             const formData = new FormData(form);
             try {
