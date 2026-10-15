@@ -378,17 +378,15 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-       // Método basado en coordenadas absolutas, infalible en móviles
+       // Función universal y directa para forzar el scroll hacia el panel de resultados
         function scrollToResult() {
-            if (window.innerWidth <= 1024) {
-                setTimeout(() => {
-                    const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
-                    if (panel) {
-                        const yOffset = panel.getBoundingClientRect().top + window.pageYOffset - 20; // 20px de margen superior
-                        window.scrollTo({ top: yOffset, behavior: 'smooth' });
-                    }
-                }, 150);
-            }
+            setTimeout(() => {
+                const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
+                if (panel) {
+                    const yOffset = panel.getBoundingClientRect().top + window.pageYOffset - 20;
+                    window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                }
+            }, 100);
         }
 
         function showLoading(text) {
