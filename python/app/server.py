@@ -378,7 +378,7 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-       // Función universal y directa para forzar el scroll hacia el panel de resultados
+        // Función universal de scroll automático
         function scrollToResult() {
             setTimeout(() => {
                 const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
