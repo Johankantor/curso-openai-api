@@ -378,13 +378,15 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-        // Función auxiliar para hacer scroll automático en móviles hacia el resultado
+        // Función auxiliar mejorada con un pequeño retraso para asegurar el scroll en móviles
         function scrollToResult() {
             if (window.innerWidth <= 1024) {
-                const panel = document.querySelector('.result-panel');
-                if (panel) {
-                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                setTimeout(() => {
+                    const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
+                    if (panel) {
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 100);
             }
         }
 
@@ -455,7 +457,7 @@ BASE_LAYOUT = """
                     outputPre.textContent += decoder.decode(value, { stream: true });
                 }
             } catch (error) {
-                outputPre.textContent += '\\n[Error de red durante el streaming]';
+                outputPre.textContent += '\n[Error de red durante el streaming]';
             }
         }
     </script>
