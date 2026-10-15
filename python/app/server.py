@@ -378,15 +378,16 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-        // Función auxiliar mejorada con un pequeño retraso para asegurar el scroll en móviles
+       // Método basado en coordenadas absolutas, infalible en móviles
         function scrollToResult() {
             if (window.innerWidth <= 1024) {
                 setTimeout(() => {
                     const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
                     if (panel) {
-                        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const yOffset = panel.getBoundingClientRect().top + window.pageYOffset - 20; // 20px de margen superior
+                        window.scrollTo({ top: yOffset, behavior: 'smooth' });
                     }
-                }, 100);
+                }, 150);
             }
         }
 
