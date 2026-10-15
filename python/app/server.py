@@ -378,15 +378,14 @@ BASE_LAYOUT = """
     <script>
         const resultBox = document.getElementById('result-box');
 
-        // Función universal de scroll automático
+        // Función auxiliar para hacer scroll automático en móviles hacia el resultado
         function scrollToResult() {
-            setTimeout(() => {
-                const panel = document.querySelector('.result-panel-wrapper') || document.querySelector('.result-panel');
+            if (window.innerWidth <= 1024) {
+                const panel = document.querySelector('.result-panel');
                 if (panel) {
-                    const yOffset = panel.getBoundingClientRect().top + window.pageYOffset - 20;
-                    window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-            }, 100);
+            }
         }
 
         function showLoading(text) {
@@ -456,7 +455,7 @@ BASE_LAYOUT = """
                     outputPre.textContent += decoder.decode(value, { stream: true });
                 }
             } catch (error) {
-                outputPre.textContent += '\n[Error de red durante el streaming]';
+                outputPre.textContent += '\\n[Error de red durante el streaming]';
             }
         }
     </script>
