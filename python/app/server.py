@@ -272,7 +272,7 @@ BASE_LAYOUT = """
             <div class="cards-grid">
                 <!-- 1 -->
                 <div class="card">
-                    <h2>💡 Generar Idea piensa lo que quieras</h2>
+                    <h2>💡 Generar Idea General</h2>
                     <form onsubmit="handleSubmit(event, '/generate', this)">
                         <textarea name="idea" placeholder="Escribe el tema general..."></textarea>
                         <button type="submit" class="btn-action">Ejecutar</button>
